@@ -31,6 +31,7 @@ import { format } from 'date-fns';
 import { Calendar } from '../ui/calendar';
 import { Toaster } from '../ui/sonner';
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 const formSchema = z.object({
     nombre: z.string(),
@@ -208,7 +209,9 @@ export default function RegisterForm() {
                     </form>
                 </Form>
                 <Toaster />
-
+                <div className='flex justify-center items-center pt-4'>
+                    <span className='text-sm text-white'> <Link href='/' className='underline'>Volver al Iniciar Sesion Aquí</Link> </span>
+                </div>
             </CardContent>
         </Card>
     )
