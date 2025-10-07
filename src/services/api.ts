@@ -1,9 +1,10 @@
 import { CONFIG } from '@/config';
+import useAuthStore from '@/store/authStore';
 import axios from 'axios';
 
 
 const apiClientServer = axios.create({
-    baseURL: CONFIG.urlApiServer,
+    baseURL: CONFIG.urlApi,
     withCredentials: true
 })
 
@@ -11,28 +12,30 @@ const apiClientServer = axios.create({
 
 apiClientServer.interceptors.response.use(
     (response) => {
-        // Handle successful responses
+
         return response;
     },
-    (error) => {
-        // Handle errors
+    async (error) => {
+        const originalRequest = error.config;
+
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true
+
+            try {
+                await apiClientServer.post('/auth/refresh')
+                return apiClientServer(originalRequest)
+            } catch (error) {
+                await apiClientServer.post('/auth/logout')
+                useAuthStore.getState().actions.clearUser()
+
+                return Promise.reject(error);
+            }
+
+        }
+
         return Promise.reject(error);
+
     }
 )
 
-const apiClientFront = axios.create({
-    baseURL: CONFIG.urlApiFront,
-    withCredentials: true,
-})
-apiClientFront.interceptors.response.use(
-    (response) => {
-        // Handle successful responses
-        return response;
-    },
-    (error) => {
-        // Handle errors
-        return Promise.reject(error);
-    }
-)
-
-export { apiClientServer, apiClientFront }
+export { apiClientServer }

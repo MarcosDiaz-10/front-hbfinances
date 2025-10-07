@@ -1,5 +1,6 @@
 import Chart from "@/components/Chart";
 import { ChartDemo } from "@/components/home/ChartDemo";
+import NameComponent from "@/components/home/NameComponent";
 import SectionTasas from "@/components/home/SectionTasas";
 import { Button } from "@/components/ui/button";
 import UltimasTransacciones from "@/components/UltimasTransacciones";
@@ -9,11 +10,8 @@ export default function HomeApp() {
     return (
         <div >
             <main>
-                <header className="flex items-center gap-3 px-3 py-2">
-                    <div><CircleUser size={35} color="white" /></div>
-                    <h1 className="font-bold text-lg py-2 text-white">Hola Marcos</h1>
-                </header>
 
+                <NameComponent />
                 <SectionTasas />
                 <section className="flex mt-5 w-full justify-center px-2">
                     <ChartDemo />

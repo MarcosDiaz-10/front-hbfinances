@@ -1,3 +1,4 @@
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Navbar from "@/components/home/Navbar";
 
 export default function HomeLayout({
@@ -6,9 +7,12 @@ export default function HomeLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div  >
-            {children}
-            <Navbar />
-        </div>
+        <ProtectedRoute>
+
+            <div  >
+                {children}
+                <Navbar />
+            </div>
+        </ProtectedRoute>
     );
 }
